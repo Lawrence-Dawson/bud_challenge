@@ -42,7 +42,7 @@ class BaseGatewayTest extends TestCase
         
         $response = $baseGateway->request('GET', '/bar', []);
 
-        $this->assertEquals($response->getBody()->getContents(), json_encode($body));
+        $this->assertEquals($response->getBody(), json_encode($body));
     }
 
     public function testItCanSendRequestWithHeaders()
