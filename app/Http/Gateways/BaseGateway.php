@@ -31,6 +31,7 @@ abstract class BaseGateway
         $config['body'] = json_encode($body);
         
         $guzzleResponse = $this->client->request($method, $fullUrl, $config);
+        
         return $this->createResponse($guzzleResponse); 
     }
 
@@ -49,6 +50,7 @@ abstract class BaseGateway
         $status = $guzzleResponse->getStatusCode();
         $body = $guzzleResponse->getBody()->getContents();
         $headers = $guzzleResponse->getHeaders();
+
         return new Response($status, $body, $headers);
     }
 }
