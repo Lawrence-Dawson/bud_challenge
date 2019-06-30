@@ -6,8 +6,10 @@ use GuzzleHttp\Client;
 
 abstract class BaseGateway
 {
-    private $client;
     protected $baseUrl;
+    
+    private $client;
+    private $config = [];
     private $headers = [];
 
     public function __construct(Client $client)
@@ -15,13 +17,13 @@ abstract class BaseGateway
         $this->client = $client;
     }
 
-    public function request(string $method, string $url, array $body) 
+    public function request(string $method, string $url, array $body = []) 
     {
         $fullUrl = $this->baseUrl . $url;
-        $config = [
-            'headers' => $this->getHeaders(),
-            'body' => json_encode($body),
-        ];
+        $config = $this->getConfig();
+        $config['headers'] = $this->getHeaders();
+        $config['body'] = json_encode($body);
+        
         return $this->client->request($method, $fullUrl, $config);
     }
 
