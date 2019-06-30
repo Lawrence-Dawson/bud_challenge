@@ -18,24 +18,37 @@ class DeathStarGateway extends BaseGateway
 
     private function setTokenHeader()
     {
-        $response = $this->request('POST', '/token', 
-        [
+        $body = [
             'Client secret' => $this->configs['death_star_secret'],
             'Client ID' => $this->configs['death_star_id'],
-        ], [], ['cert' => 'certificate.pem']);
+        ];
+        $configs = ['cert' => 'certificate.pem'];
+
+        $response = $this->request('POST', '/token', $body, [], $configs);
         
-        $body = json_decode($response->getBody(), true);
+        $reponseBody = json_decode($response->getBody(), true);
 
         $this->setHeaders([
-            'Authorization' => 'Bearer ' . $body['access_token']
+            'Authorization' => 'Bearer ' . $reponseBody['access_token']
         ]);
     }
 
     public function destroy()
     {
-        return $this->request('DELETE', '/reactor/exhaust/1', [], [
+        $headers = [
             'X-Torpedoes' => 2,
             'Content-Type:  application/json',
-        ], ['cert' => 'certificate.pem']);
+        ];
+        $configs = ['cert' => 'certificate.pem'];
+
+        return $this->request('DELETE', '/reactor/exhaust/1', [], $headers, $configs);
+    }
+
+    public function releaseThePrincess()
+    {
+        $headers = ['Content-Type:  application/json'];
+        $configs = ['cert' => 'certificate.pem'];
+
+        return $this->request('GET', '/prisoner/leia', [], $headers, $configs);
     }
 }

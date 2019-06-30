@@ -143,7 +143,7 @@ class DeathStarGatewayTest extends TestCase
         ]);
             
         $client->expects()
-            ->request('DELETE', 'https://death.star.api/prisoner/leia', [
+            ->request('GET', 'https://death.star.api/prisoner/leia', [
                 'headers' => [
                     'Content-Type:  application/json',
                     'Authorization' => 'Bearer ' . $authResponseBody['access_token']
