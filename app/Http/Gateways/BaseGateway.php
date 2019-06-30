@@ -7,8 +7,8 @@ use GuzzleHttp\Client;
 abstract class BaseGateway
 {
     private $client;
-    private $headers;
     protected $baseUrl;
+    private $headers = [];
 
     public function __construct(Client $client)
     {
