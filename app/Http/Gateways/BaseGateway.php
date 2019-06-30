@@ -28,7 +28,7 @@ abstract class BaseGateway
         $fullUrl = $this->getBaseUrl() . $url;
         $config['headers'] = array_merge($this->getHeaders(), $additionalHeaders);
         $config['body'] = json_encode($body);
-        
+    
         $guzzleResponse = $this->client->request($method, $fullUrl, $config);
         
         return $this->createResponse($guzzleResponse); 

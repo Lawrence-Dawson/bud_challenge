@@ -18,7 +18,8 @@ class DeathStarGateway extends BaseGateway
 
     private function setTokenHeader()
     {
-        $response = $this->request('POST', '/token', [
+        $response = $this->request('POST', '/token', 
+        [
             'Client secret' => $this->configs['death_star_secret'],
             'Client ID' => $this->configs['death_star_id'],
         ], [], ['cert' => 'certificate.pem']);
@@ -28,5 +29,10 @@ class DeathStarGateway extends BaseGateway
         $this->setHeaders([
             'Authorization' => 'Bearer ' . $body['access_token']
         ]);
+    }
+
+    public function destroyExhaust(int $exhaust)
+    {
+        return $this->request('DELETE', '/reactor/exhaust/' . $exhaust, [], ['X-Torpedoes' => 2], ['cert' => 'certificate.pem']);
     }
 }
