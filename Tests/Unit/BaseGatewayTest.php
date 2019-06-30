@@ -16,7 +16,7 @@ class BaseGatewayTest extends TestCase
         parent::setUp();
     }
 
-    public function createResponse(int $status, array $headers = [], array $body)
+    public function createResponse(int $status, array $headers = [], array $body = [])
     {
         $body = json_encode($body);
         $headers = [];
@@ -116,7 +116,6 @@ class BaseGatewayTest extends TestCase
         $this->assertEquals([], $baseGateway->getHeaders());
     }
 
-
     public function testItCanSendRequestWithBody()
     {
         $client = Mockery::mock(Client::class);
@@ -139,6 +138,30 @@ class BaseGatewayTest extends TestCase
 
         $baseGateway->setHeaders($headers);
         $response = $baseGateway->request('POST', '/bar', $requestBody);
+
+        $this->assertEquals($response, $response);
+    }
+
+    public function testItCanSendRequestWithAdditionalHeaders()
+    {
+        $client = Mockery::mock(Client::class);
+        $baseGateway = new class($client) extends BaseGateway {
+            protected $baseUrl = 'http://www.foo.com';
+        };
+        
+        $headers = ['test' => 'header'];
+        $requestBody = ['test' => ['request' => 'body']];
+        $response = $this->createResponse(200);
+
+        $client->expects()
+            ->request('POST', 'http://www.foo.com/bar', [
+                'headers' => $headers,
+                'body' => json_encode($requestBody)
+            ])
+            ->once()
+            ->andReturns($response);
+
+        $response = $baseGateway->request('POST', '/bar', $requestBody, $headers);
 
         $this->assertEquals($response, $response);
     }

@@ -17,11 +17,11 @@ abstract class BaseGateway
         $this->client = $client;
     }
 
-    public function request(string $method, string $url, array $body = []) 
+    public function request(string $method, string $url, array $body = [], array $additionalHeaders = []) 
     {
         $fullUrl = $this->baseUrl . $url;
-        $config = $this->getConfig();
-        $config['headers'] = $this->getHeaders();
+        $config = [];
+        $config['headers'] = array_merge($this->getHeaders(), $additionalHeaders);
         $config['body'] = json_encode($body);
         
         return $this->client->request($method, $fullUrl, $config);
