@@ -19,7 +19,7 @@ abstract class BaseGateway
     {
         $fullUrl = $this->baseUrl . $url;
         $config = [
-            'headers' => $this->headers,
+            'headers' => $this->getHeaders(),
             'body' => json_encode($body),
         ];
         return $this->client->request($method, $fullUrl, $config);
@@ -28,5 +28,10 @@ abstract class BaseGateway
     public function setHeaders(array $headers)
     {
         $this->headers = $headers;
+    }
+
+    public function getHeaders(): array
+    {
+        return $this->headers;
     }
 }
