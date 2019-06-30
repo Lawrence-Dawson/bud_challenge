@@ -24,13 +24,13 @@ class ResponseTest extends TestCase
         $this->assertEquals($body, $response->getBody());
     }
 
-    public function testItCanGetDecodedResponseBodyIfJson()
+    public function testItCanGetResponseHeaders()
     {
         $status = 200;
-        $bodyArray = ['foo => bar'];
-        $body = json_encode($bodyArray);
-        $response = new Response($status, $body);
+        $body = 'foo is bar';
+        $headers = ['test' => 'headers'];
+        $response = new Response($status, $body, $headers);
 
-        $this->assertEquals($bodyArray, $response->getBody());
+        $this->assertEquals($body, $response->getHeaders());
     }
 }
