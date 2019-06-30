@@ -26,7 +26,7 @@ abstract class BaseGateway
         array $config = []
         ) 
     {
-        $fullUrl = $this->baseUrl . $url;
+        $fullUrl = $this->getBaseUrl() . $url;
         $config['headers'] = array_merge($this->getHeaders(), $additionalHeaders);
         $config['body'] = json_encode($body);
         
@@ -43,6 +43,16 @@ abstract class BaseGateway
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    public function setBaseUrl(string $url)
+    {
+        $this->baseUrl = $url;
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 
     private function createResponse(GuzzleResponse $guzzleResponse): Response
