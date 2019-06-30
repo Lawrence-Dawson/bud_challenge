@@ -42,4 +42,29 @@ class BaseGatewayTest extends TestCase
 
         $this->assertEquals($response->getBody()->getContents(), json_encode($body));
     }
+
+    public function testItCanSendRequestWithHeaders()
+    {
+       $client = Mockery::mock(Client::class);
+       $headers = ['test' => 'header'];
+       $baseGateway = new class($client) extends BaseGateway {
+           protected $baseUrl = 'http://www.foo.com';
+       };
+
+       $body = ['foo' => 'bar'];
+       $response = $this->createResponse(200, [], $body);
+
+       $client->expects()
+           ->request('GET', 'http://www.foo.com/bar', [
+               'headers' => $headers,
+               'body' => json_encode($body)
+           ])
+           ->once()
+           ->andReturns($response);
+
+        $baseGateway->setHeaders($headers);
+        $response = $baseGateway->request('GET', '/bar', []);
+
+        $this->assertEquals($response, $response);
+    }
 }
