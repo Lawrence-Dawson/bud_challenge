@@ -9,8 +9,7 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 abstract class BaseGateway
 {
     protected $baseUrl;
-    
-    private $client;
+    protected $client;
     private $headers = [];
 
     public function __construct(Client $client)

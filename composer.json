@@ -1,7 +1,8 @@
 {
     "require": {
         "phpunit/phpunit": "^8.2",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "vlucas/phpdotenv": "^3.4"
     },
     "autoload": {
         "psr-4": {
