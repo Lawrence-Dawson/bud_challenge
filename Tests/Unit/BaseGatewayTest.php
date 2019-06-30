@@ -34,7 +34,7 @@ class BaseGatewayTest extends TestCase
        $response = $this->createResponse(200, [], $body);
 
        $client->expects()
-           ->request('GET', 'http://www.foo.com/bar', [])
+           ->request('GET', 'http://www.foo.com/bar', json_encode([]))
            ->once()
            ->andReturns($response);
         
@@ -57,7 +57,7 @@ class BaseGatewayTest extends TestCase
        $client->expects()
            ->request('GET', 'http://www.foo.com/bar', [
                'headers' => $headers,
-               'body' => json_encode($body)
+               'body' => json_encode([])
            ])
            ->once()
            ->andReturns($response);
