@@ -3,6 +3,8 @@
 namespace App\Http\Gateways;
 
 use GuzzleHttp\Client;
+use App\Http\Response;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 abstract class BaseGateway
 {
@@ -28,7 +30,8 @@ abstract class BaseGateway
         $config['headers'] = array_merge($this->getHeaders(), $additionalHeaders);
         $config['body'] = json_encode($body);
         
-        return $this->client->request($method, $fullUrl, $config);
+        $guzzleResponse = $this->client->request($method, $fullUrl, $config);
+        return $this->createResponse($guzzleResponse); 
     }
 
     public function setHeaders(array $headers)
@@ -39,5 +42,13 @@ abstract class BaseGateway
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    private function createResponse(GuzzleResponse $guzzleResponse): Response
+    {
+        $status = $guzzleResponse->getStatusCode();
+        $body = $guzzleResponse->getBody()->getContents();
+        $headers = $guzzleResponse->getHeaders();
+        return new Response($status, $body, $headers);
     }
 }

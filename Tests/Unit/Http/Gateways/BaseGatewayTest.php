@@ -3,8 +3,8 @@
 namespace App\Tests\Unit\Http\Gateways;
 
 use Mockery;
-use App\Http\Response;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use App\Http\Gateways\BaseGateway;
 
@@ -19,7 +19,7 @@ class BaseGatewayTest extends TestCase
     {
         $body = json_encode($body);
         $headers = [];
-        return new Response($status, $body, $headers);
+        return new Response($status, $headers, $body);
     }
 
     public function testItCanSendRequest()
