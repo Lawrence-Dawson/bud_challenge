@@ -7,10 +7,11 @@ class Response
     private $status;
     private $body;
 
-    public function __construct(int $status, $body = '')
+    public function __construct(int $status, string $body = '', array $headers = [])
     {
         $this->status = $status;
         $this->body = $body;
+        $this->headers = $headers;
     }
 
     public function getStatus(): int
@@ -19,6 +20,11 @@ class Response
     }
 
     public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function getHeaders()
     {
         return $this->body;
     }
