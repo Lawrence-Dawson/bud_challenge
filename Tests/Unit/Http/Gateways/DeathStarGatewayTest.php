@@ -20,7 +20,6 @@ class DeathStarGatewayTest extends TestCase
     public function testItCanSetAuthToken()
     {
         $client = Mockery::mock(Client::class);
-        $gateway = new DeathStarGateway($client);
 
         $responseBody = [
             'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
@@ -44,6 +43,7 @@ class DeathStarGatewayTest extends TestCase
             ->once()
             ->andReturns($response);
 
+        $gateway = new DeathStarGateway($client);
         $headers = $gateway->getHeaders();
         
         $this->assertEquals($headers, [
