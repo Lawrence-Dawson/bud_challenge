@@ -9,7 +9,6 @@ abstract class BaseGateway
     protected $baseUrl;
     
     private $client;
-    private $config = [];
     private $headers = [];
 
     public function __construct(Client $client)
@@ -47,15 +46,5 @@ abstract class BaseGateway
         $headers = $this->getHeaders();
         unset($headers[$key]);
         $this->setHeaders($headers);
-    }
-
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-    }
-
-    public function getConfig(): array
-    {
-        return $this->config;
     }
 }
