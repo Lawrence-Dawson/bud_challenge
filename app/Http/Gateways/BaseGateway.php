@@ -34,4 +34,9 @@ abstract class BaseGateway
     {
         return $this->headers;
     }
+
+    public function addHeader(array $header)
+    {
+        $this->setHeaders(array_merge($this->getHeaders(), $header));
+    }
 }
