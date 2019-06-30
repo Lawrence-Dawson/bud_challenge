@@ -40,16 +40,4 @@ abstract class BaseGateway
     {
         return $this->headers;
     }
-
-    public function addHeader(array $header)
-    {
-        $this->setHeaders(array_merge($this->getHeaders(), $header));
-    }
-
-    public function removeHeader(string $key)
-    {
-        $headers = $this->getHeaders();
-        unset($headers[$key]);
-        $this->setHeaders($headers);
-    }
 }
