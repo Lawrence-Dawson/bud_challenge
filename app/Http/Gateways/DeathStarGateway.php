@@ -31,8 +31,11 @@ class DeathStarGateway extends BaseGateway
         ]);
     }
 
-    public function destroyExhaust(int $exhaust)
+    public function destroy()
     {
-        return $this->request('DELETE', '/reactor/exhaust/' . $exhaust, [], ['X-Torpedoes' => 2], ['cert' => 'certificate.pem']);
+        return $this->request('DELETE', '/reactor/exhaust/1', [], [
+            'X-Torpedoes' => 2,
+            'Content-Type:  application/json',
+        ], ['cert' => 'certificate.pem']);
     }
 }

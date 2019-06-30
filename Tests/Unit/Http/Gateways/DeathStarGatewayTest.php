@@ -88,13 +88,14 @@ class DeathStarGatewayTest extends TestCase
 
         $destroyResponse = $this->createResponse(200, [], [
             'success' => true,
-            'message' => 'exhaust deleted.'
+            'message' => 'Exhaust deleted.'
         ]);
             
         $client->expects()
             ->request('DELETE', 'https://death.star.api/reactor/exhaust/1', [
                 'headers' => [
                     'X-Torpedoes' => 2,
+                    'Content-Type:  application/json',
                     'Authorization' => 'Bearer ' . $authResponseBody['access_token']
                 ],
                 'cert' => $cert,
@@ -104,7 +105,57 @@ class DeathStarGatewayTest extends TestCase
             ->andReturns($destroyResponse);
 
         $gateway = new DeathStarGateway($client);
-        $response = $gateway->destroyExhaust(1);
+        $response = $gateway->destroy();
+
+        $this->assertEquals($destroyResponse->getBody(), $response->getBody());
+    }
+
+    public function testItCanReleaseLeia()
+    {
+        $client = Mockery::mock(Client::class);
+
+        $authResponseBody = [
+            'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
+            'expires_id' => 99999999999,
+            'token_type' => 'Bearer',
+            'scope' => 'TheForce'
+        ];
+
+        $authResponse = $this->createResponse(200, [], $authResponseBody);
+
+        $cert = 'certificate.pem';
+
+        $client->expects()
+            ->request('POST', 'https://death.star.api/token', [
+                'headers' => [],
+                'cert' => $cert,
+                'body' => json_encode([
+                    'Client secret' => $this->configs['death_star_secret'],
+                    'Client ID' => $this->configs['death_star_id'],
+                ])
+            ])
+            ->once()
+            ->andReturns($authResponse);
+
+        $destroyResponse = $this->createResponse(200, [], [
+            'success' => true,
+            'message' => 'Prisoner released.'
+        ]);
+            
+        $client->expects()
+            ->request('DELETE', 'https://death.star.api/prisoner/leia', [
+                'headers' => [
+                    'Content-Type:  application/json',
+                    'Authorization' => 'Bearer ' . $authResponseBody['access_token']
+                ],
+                'cert' => $cert,
+                'body' => json_encode([])
+            ])
+            ->once()
+            ->andReturns($destroyResponse);
+
+        $gateway = new DeathStarGateway($client);
+        $response = $gateway->releaseThePrincess();
 
         $this->assertEquals($destroyResponse->getBody(), $response->getBody());
     }
