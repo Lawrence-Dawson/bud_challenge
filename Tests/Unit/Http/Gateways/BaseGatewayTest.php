@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Unit\Http\Gateways;
 
 use Mockery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use App\Http\Gateways\BaseGateway;
-use function GuzzleHttp\json_encode;
 
 class BaseGatewayTest extends TestCase
 {
