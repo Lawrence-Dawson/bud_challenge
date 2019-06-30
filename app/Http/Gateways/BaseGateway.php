@@ -16,10 +16,15 @@ abstract class BaseGateway
         $this->client = $client;
     }
 
-    public function request(string $method, string $url, array $body = [], array $additionalHeaders = []) 
+    public function request(
+        string $method, 
+        string $url, 
+        array $body = [], 
+        array $additionalHeaders = [],
+        array $config = []
+        ) 
     {
         $fullUrl = $this->baseUrl . $url;
-        $config = [];
         $config['headers'] = array_merge($this->getHeaders(), $additionalHeaders);
         $config['body'] = json_encode($body);
         
