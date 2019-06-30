@@ -10,6 +10,11 @@ use App\Http\Gateways\DeathStarGateway;
 
 class DeathStarGatewayTest extends TestCase
 {
+    public function setUp(): void
+    {
+        $this->configs = $configs = include('config.php');
+    }
+
     public function createResponse(int $status, array $headers = [], array $body = [])
     {
         $body = json_encode($body);
@@ -29,8 +34,8 @@ class DeathStarGatewayTest extends TestCase
         ];
 
         $body = [
-            'Client secret' => 'Alderaan',
-            'Client ID' => 'R2D2',
+            'Client secret' => $this->configs['death_star_secret'],
+            'Client ID' => $this->configs['death_star_id'],
         ];
 
         $response = $this->createResponse(200, [], $responseBody);

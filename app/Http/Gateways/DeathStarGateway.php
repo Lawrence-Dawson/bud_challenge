@@ -6,20 +6,21 @@ use GuzzleHttp\Client;
 
 class DeathStarGateway extends BaseGateway
 {
-    private $token;
+    private $configs;
 
     public function __construct(Client $client)
     {
+        $this->configs = include('config.php');
         $this->client = $client;
-        $this->setBaseUrl('');
+        $this->setBaseUrl($this->configs['death_star_url']);
         $this->setTokenHeader();
     }
 
     private function setTokenHeader()
     {
         $response = $this->request('POST', '/token', [
-            'Client secret' => '',
-            'Client ID' => '',
+            'Client secret' => $this->configs['death_star_secret'],
+            'Client ID' => $this->configs['death_star_id'],
         ]);
         
         $body = json_decode($response->getBody(), true);
