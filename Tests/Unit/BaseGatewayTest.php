@@ -142,4 +142,18 @@ class BaseGatewayTest extends TestCase
 
         $this->assertEquals($response, $response);
     }
+
+    public function testItCanSetAndGetRequestConfig()
+    {
+        $client = Mockery::mock(Client::class);
+        $baseGateway = new class($client) extends BaseGateway {
+            protected $baseUrl = 'http://www.foo.com';
+        };
+
+        $config = ['test' => 'config'];
+
+        $baseGateway->setConfig($config);
+
+        $this->assertEquals($config, $baseGateway->getConfig());
+    }
 }

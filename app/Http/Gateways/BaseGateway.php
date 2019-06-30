@@ -46,4 +46,14 @@ abstract class BaseGateway
         unset($headers[$key]);
         $this->setHeaders($headers);
     }
+
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
 }
