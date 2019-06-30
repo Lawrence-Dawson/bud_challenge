@@ -2,10 +2,12 @@
 
 namespace App\Tests\Unit;
 
+use Mockery;
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use App\Http\Gateways\BaseGateway;
+use function GuzzleHttp\json_encode;
 
 class BaseGatewayTest extends TestCase
 {
@@ -14,21 +16,30 @@ class BaseGatewayTest extends TestCase
         parent::setUp();
     }
 
+    public function createResponse(int $status, array $headers = [], array $body)
+    {
+        $body = json_encode($body);
+        $headers = [];
+        return new Response($status, $headers, $body);
+    }
+
     public function testItCanSendRequest()
     {
-        $container = [];
-        $history = Middleware::history($container);
-        $stack = HandlerStack::create();
-        $stack->push($history);
+       $client = Mockery::mock(Client::class);
+       $baseGateway = new class($client) extends BaseGateway {
+           protected $baseUrl = 'http://www.foo.com';
+       };
 
-        $client = new Client(['handler' => $stack]);
+       $body = ['foo' => 'bar'];
+       $response = $this->createResponse(200, [], $body);
 
-        $baseGateway = new class($client) extends BaseGateway {
-            protected $baseUrl = 'http://www.foo.com';
-        };
+       $client->expects()
+           ->request('GET', 'http://www.foo.com/bar', [])
+           ->once()
+           ->andReturns($response);
+        
+        $response = $baseGateway->request('GET', '/bar', []);
 
-        $baseGateway->request('GET', '/bar');
-
-        $this->assertTrue(count($container) == 1);
+        $this->assertEquals($response->getBody()->getContents(), json_encode($body));
     }
 }
