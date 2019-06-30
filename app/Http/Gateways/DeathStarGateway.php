@@ -21,7 +21,7 @@ class DeathStarGateway extends BaseGateway
         $response = $this->request('POST', '/token', [
             'Client secret' => $this->configs['death_star_secret'],
             'Client ID' => $this->configs['death_star_id'],
-        ]);
+        ], [], ['cert' => 'certificate.pem']);
         
         $body = json_decode($response->getBody(), true);
 

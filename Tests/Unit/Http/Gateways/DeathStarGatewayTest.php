@@ -40,46 +40,12 @@ class DeathStarGatewayTest extends TestCase
 
         $response = $this->createResponse(200, [], $responseBody);
 
-        $client->expects()
-            ->request('POST', 'https://death.star.api/token', [
-                'headers' => [],
-                'body' => json_encode($body)
-            ])
-            ->once()
-            ->andReturns($response);
-
-        $gateway = new DeathStarGateway($client);
-        $headers = $gateway->getHeaders();
-        
-        $this->assertEquals($headers, [
-            'Authorization' => 'Bearer ' . $responseBody['access_token']
-        ]);
-    }
-
-    public function testItAddsCertificateToAllRequests()
-    {
-        $client = Mockery::mock(Client::class);
-
-        $responseBody = [
-            'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
-            'expires_id' => 99999999999,
-            'token_type' => 'Bearer',
-            'scope' => 'TheForce'
-        ];
-
-        $body = [
-            'Client secret' => $this->configs['death_star_secret'],
-            'Client ID' => $this->configs['death_star_id'],
-        ];
-
         $cert = 'certificate.pem';
 
-        $response = $this->createResponse(200, [], $responseBody);
-
         $client->expects()
             ->request('POST', 'https://death.star.api/token', [
-                'cert' => $cert,
                 'headers' => [],
+                'cert' => $cert,
                 'body' => json_encode($body)
             ])
             ->once()
