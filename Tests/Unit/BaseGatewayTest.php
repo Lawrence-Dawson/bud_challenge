@@ -101,6 +101,21 @@ class BaseGatewayTest extends TestCase
         $this->assertEquals(array_merge($headers, $addition), $baseGateway->getHeaders());
     }
 
+    public function testItCanRemoveHeader()
+    {
+        $client = Mockery::mock(Client::class);
+        $baseGateway = new class($client) extends BaseGateway {
+            protected $baseUrl = 'http://www.foo.com';
+        };
+
+        $headers = ['test' => 'header'];
+
+        $baseGateway->setHeaders($headers);
+        $baseGateway->removeHeader('test');
+
+        $this->assertEquals([], $baseGateway->getHeaders());
+    }
+
 
     public function testItCanSendRequestWithBody()
     {
