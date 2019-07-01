@@ -76,6 +76,7 @@ class HackServiceTest extends TestCase
         01100101 01100010 01100101 01101100 00100000 
         01110011 01100011 01110101 01101101 00100001';
         $messageBasic = 'Access DENIED you puny rebel scum!';
+        $responseCode = 401;
 
         $json = json_encode([
             'message' => $messageDroid
@@ -95,7 +96,8 @@ class HackServiceTest extends TestCase
             ->once()
             ->andReturns($messageBasic);
 
-        $this->expectExceptionMessage('Access DENIED you puny rebel scum!');
+        $this->expectExceptionCode($responseCode);
+        $this->expectExceptionMessage($messageBasic);
 
         $this->service->releaseThePrincess();
     }
