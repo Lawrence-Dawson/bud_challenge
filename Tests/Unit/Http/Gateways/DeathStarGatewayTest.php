@@ -86,10 +86,7 @@ class DeathStarGatewayTest extends TestCase
             ->once()
             ->andReturns($authResponse);
 
-        $destroyResponse = $this->createResponse(200, [], [
-            'success' => true,
-            'message' => 'Exhaust deleted.'
-        ]);
+        $destroyResponse = $this->createResponse(200, [], []);
             
         $client->expects()
             ->request('DELETE', 'https://death.star.api/reactor/exhaust/1', [
@@ -137,10 +134,7 @@ class DeathStarGatewayTest extends TestCase
             ->once()
             ->andReturns($authResponse);
 
-        $destroyResponse = $this->createResponse(200, [], [
-            'success' => true,
-            'message' => 'Prisoner released.'
-        ]);
+        $destroyResponse = $this->createResponse(200, [], []);
             
         $client->expects()
             ->request('GET', 'https://death.star.api/prisoner/leia', [
