@@ -101,4 +101,35 @@ class HackServiceTest extends TestCase
 
         $this->service->releaseThePrincess();
     }
+
+    public function testItCanDestroyTheDeathStar()
+    {
+        $messageDroid = '01010101 01101000 00100000 01101111 
+                        01101000 00101110 00101110 00101110';
+        $messageBasic = 'Uh oh...';
+
+        $json = json_encode([
+            'message' => $messageDroid
+        ]);
+
+        $response = new Response(200, $json);
+
+        $this->deathStar
+            ->expects()
+            ->destroy()
+            ->once()
+            ->andReturns($response);
+        
+        $this->translator
+            ->expects()
+            ->droidToBasic($messageDroid)
+            ->once()
+            ->andReturns($messageBasic);
+
+        $result = $this->service->destroyTheDeathStar();
+
+        $this->assertEquals([
+            'message' => $messageBasic,
+        ], $result);
+    }
 }
