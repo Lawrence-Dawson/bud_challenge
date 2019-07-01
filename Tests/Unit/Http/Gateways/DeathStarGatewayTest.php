@@ -6,12 +6,15 @@ use Mockery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Wruczek\PhpFileCache\PhpFileCache;
 use App\Http\Gateways\DeathStarGateway;
 
 class DeathStarGatewayTest extends TestCase
 {
     public function setUp(): void
     {
+        $cache = new PhpFileCache(__DIR__ . "cache");
+        $cache->eraseKey("death_star_token");
         $this->configs = $configs = include('config.php');
     }
 
@@ -190,5 +193,37 @@ class DeathStarGatewayTest extends TestCase
         $gateway2 = new DeathStarGateway($client2);
 
         $this->assertEquals($gateway2->getHeaders(), ['Authorization' => 'Bearer ' . $authResponseBody['access_token']]);
+    }
+
+    public function testItBadGetTokenResponseCausesErrorToBeThrown()
+    {
+        $client = Mockery::mock(Client::class);
+
+        $status = 500;
+        $message = 'Error.';
+
+        $authResponse = $this->createResponse($status, [], [
+            'message' => $message
+        ]);
+
+        $cert = 'certificate.pem';
+
+        $client->expects()
+            ->request('POST', 'https://death.star.api/token', [
+                'headers' => [],
+                'cert' => $cert,
+                'body' => json_encode([
+                    'Client secret' => $this->configs['death_star_secret'],
+                    'Client ID' => $this->configs['death_star_id'],
+                ])
+            ])
+            ->once()
+            ->andReturns($authResponse);
+
+        $this->expectExceptionCode($status);
+        $this->expectExceptionMessage($message);
+
+        new DeathStarGateway($client);
+        
     }
 }

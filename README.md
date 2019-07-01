@@ -60,6 +60,11 @@ To impliment this solution took the following steps, all using TDD:
 - Created a HackingService that has both DeathStarGateway and TranslatorService as dependencies and implimented calls to DeathStarGateways endpoints.
 - Added response parsing to HackingService to parse Droidspeak to Basic.
 - Added error handling to throw an exception when a bad response is received.
+- Added a cache to cache the DeathStar auth response, reducing the number of suspision raising requests and sucuring the safety of the Alliance.
+
+## Development comments:
+
+- The requirements ask that the certificate AND key be sent in every request. This seemed odd, the certificate IS the public key. If I were to send the certificate and the only other key, the private key, it would severely endanger the Alliance and could cost us the war. I can only assume this requirement was added by an Empire spy.... or was a typo.
 
 ## To Run Tests
 

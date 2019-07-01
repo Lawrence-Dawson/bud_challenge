@@ -21,7 +21,7 @@ class DeathStarGateway extends BaseGateway
     private function getAccessToken()
     {
         $cache = new PhpFileCache(__DIR__ . "cache");
-
+        
         if ($token = $cache->retrieve("death_star_token")) {
             return $token['access_token'];
         }
@@ -34,6 +34,14 @@ class DeathStarGateway extends BaseGateway
         $configs = ['cert' => 'certificate.pem'];
         
         $response = $this->request('POST', '/token', $body, [], $configs);
+     
+        if (!isset($response->getBody()['access_token'])) {
+            die(print_r('here', true ));
+            throw new \Exception(
+                $response->getBody['message'] ?? 'Error, token could not be retrieved.',
+                $response->getStatus()
+            );
+        }
         
         $reponseBody = json_decode($response->getBody(), true);
 
