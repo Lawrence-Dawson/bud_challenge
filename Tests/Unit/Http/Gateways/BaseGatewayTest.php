@@ -40,7 +40,7 @@ class BaseGatewayTest extends TestCase
            ->once()
            ->andReturns($response);
         
-        $response = $baseGateway->request('GET', 'bar', []);
+        $baseGateway->request('GET', 'bar', []);
 
         $this->assertEquals($response->getBody(), json_encode($body));
     }
@@ -62,8 +62,8 @@ class BaseGatewayTest extends TestCase
             ->once()
             ->andReturns($response);
         
-            $baseGateway->setBaseUrl($baseUrl);
-            $response = $baseGateway->request('GET', 'bar', []);
+        $baseGateway->setBaseUrl($baseUrl);
+        $baseGateway->request('GET', 'bar', []);
             
         $this->assertEquals($baseGateway->getBaseUrl(), $baseUrl);
         $this->assertEquals($response->getBody(), json_encode($body));
@@ -89,9 +89,9 @@ class BaseGatewayTest extends TestCase
             ->andReturns($response);
 
         $baseGateway->setHeaders($headers);
-        $response = $baseGateway->request('GET', 'bar', []);
+        $requestResponse = $baseGateway->request('GET', 'bar', []);
 
-        $this->assertEquals($response, $response);
+        $this->assertEquals($response->getBody(), $requestResponse->getBody());
     }
 
     public function testItCanGetHeaders()
@@ -129,9 +129,9 @@ class BaseGatewayTest extends TestCase
             ->andReturns($response);
 
         $baseGateway->setHeaders($headers);
-        $response = $baseGateway->request('POST', 'bar', $requestBody);
+        $requestResponse = $baseGateway->request('POST', 'bar', $requestBody);
 
-        $this->assertEquals($response, $response);
+        $this->assertEquals($response->getBody(), $requestResponse->getBody());
     }
 
     public function testItCanSendRequestWithAdditionalHeaders()
@@ -153,9 +153,9 @@ class BaseGatewayTest extends TestCase
             ->once()
             ->andReturns($response);
 
-        $response = $baseGateway->request('POST', 'bar', $requestBody, $headers);
+        $requestResponse = $baseGateway->request('POST', 'bar', $requestBody, $headers);
 
-        $this->assertEquals($response, $response);
+        $this->assertEquals($response->getBody(), $requestResponse->getBody());
     }
 
     public function testItCanSendRequestWithAdditionalConfig()
@@ -178,8 +178,8 @@ class BaseGatewayTest extends TestCase
             ->once()
             ->andReturns($response);
 
-        $response = $baseGateway->request('POST', 'bar', $requestBody, [], $config);
+        $requestResponse = $baseGateway->request('POST', 'bar', $requestBody, [], $config);
 
-        $this->assertEquals($response, $response);
+        $this->assertEquals($response->getBody(), $requestResponse->getBody());
     }
 }
