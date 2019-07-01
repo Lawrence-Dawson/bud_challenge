@@ -43,7 +43,7 @@ class DeathStarGateway extends BaseGateway
         return $this->request('DELETE', '/reactor/exhaust/1', [], $headers, $requestConfig);
     }
 
-    public function releaseThePrincess()
+    public function releasePrincess()
     {
         $headers = ['Content-Type:  application/json'];
         $requestConfig = ['cert' => 'certificate.pem'];

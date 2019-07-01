@@ -155,7 +155,7 @@ class DeathStarGatewayTest extends TestCase
             ->andReturns($destroyResponse);
 
         $gateway = new DeathStarGateway($client);
-        $response = $gateway->releaseThePrincess();
+        $response = $gateway->releasePrincess();
 
         $this->assertEquals($destroyResponse->getBody(), $response->getBody());
     }

@@ -42,7 +42,7 @@ class HackServiceTest extends TestCase
 
         $this->deathStar
             ->expects()
-            ->releaseThePrincess()
+            ->releasePrincess()
             ->once()
             ->andReturns($response);
         
@@ -58,7 +58,7 @@ class HackServiceTest extends TestCase
             ->once()
             ->andReturns($blockBasic);
 
-        $result = $this->service->releaseThePrincess();
+        $result = $this->service->releasePrincess();
 
         $this->assertEquals([
             'cell' => $cellBasic,
@@ -86,7 +86,7 @@ class HackServiceTest extends TestCase
 
         $this->deathStar
             ->expects()
-            ->releaseThePrincess()
+            ->releasePrincess()
             ->once()
             ->andReturns($response);
         
@@ -99,7 +99,7 @@ class HackServiceTest extends TestCase
         $this->expectExceptionCode($responseCode);
         $this->expectExceptionMessage($messageBasic);
 
-        $this->service->releaseThePrincess();
+        $this->service->releasePrincess();
     }
 
     public function testItCanDestroyTheDeathStar()
@@ -126,7 +126,7 @@ class HackServiceTest extends TestCase
             ->once()
             ->andReturns($messageBasic);
 
-        $result = $this->service->destroyTheDeathStar();
+        $result = $this->service->destroyDeathStar();
 
         $this->assertEquals([
             'message' => $messageBasic,

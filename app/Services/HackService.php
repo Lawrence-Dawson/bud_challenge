@@ -17,9 +17,16 @@ class HackService
         $this->translator = $translator;
     }
 
-    public function releaseThePrincess()
+    public function releasePrincess()
     {
-        $response = $this->deathStar->releaseThePrincess();
+        $response = $this->deathStar->releasePrincess();
+        
+        return $this->handleResponse($response);
+    }
+
+    public function destroyDeathStar()
+    {
+        $response = $this->deathStar->destroy();
         
         return $this->handleResponse($response);
     }
