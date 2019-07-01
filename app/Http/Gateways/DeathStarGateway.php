@@ -10,27 +10,26 @@ class DeathStarGateway extends BaseGateway
 
     public function __construct(Client $client)
     {
-        $this->configs = include('config.php');
+        $this->setConfigs(include('config.php'));
         $this->client = $client;
         $this->setBaseUrl($this->configs['death_star_url']);
-        $this->setTokenHeader();
+        $accessToken = $this->getAccessToken();
+        $this->setHeaders(['Authorization' => 'Bearer ' . $accessToken]);
     }
 
-    private function setTokenHeader()
+    private function getAccessToken()
     {
         $body = [
-            'Client secret' => $this->configs['death_star_secret'],
-            'Client ID' => $this->configs['death_star_id'],
+            'Client secret' => $this->getConfigs()['death_star_secret'],
+            'Client ID' => $this->getConfigs()['death_star_id'],
         ];
         $configs = ['cert' => 'certificate.pem'];
 
         $response = $this->request('POST', '/token', $body, [], $configs);
-        
+
         $reponseBody = json_decode($response->getBody(), true);
 
-        $this->setHeaders([
-            'Authorization' => 'Bearer ' . $reponseBody['access_token']
-        ]);
+        return $reponseBody['access_token'];
     }
 
     public function destroy()
@@ -39,16 +38,26 @@ class DeathStarGateway extends BaseGateway
             'X-Torpedoes' => 2,
             'Content-Type:  application/json',
         ];
-        $configs = ['cert' => 'certificate.pem'];
+        $requestConfig = ['cert' => 'certificate.pem'];
 
-        return $this->request('DELETE', '/reactor/exhaust/1', [], $headers, $configs);
+        return $this->request('DELETE', '/reactor/exhaust/1', [], $headers, $requestConfig);
     }
 
     public function releaseThePrincess()
     {
         $headers = ['Content-Type:  application/json'];
-        $configs = ['cert' => 'certificate.pem'];
+        $requestConfig = ['cert' => 'certificate.pem'];
 
-        return $this->request('GET', '/prisoner/leia', [], $headers, $configs);
+        return $this->request('GET', '/prisoner/leia', [], $headers, $requestConfig);
+    }
+
+    private function setConfigs(array $configs)
+    {
+        $this->configs = $configs;
+    }
+
+    private function getConfigs(): array
+    {
+        return $this->configs;
     }
 }

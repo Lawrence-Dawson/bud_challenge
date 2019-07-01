@@ -22,7 +22,7 @@ class DeathStarGatewayTest extends TestCase
         return new Response($status, $headers, $body);
     }
 
-    public function testItCanSetAuthToken()
+    public function testItSetsAuthToken()
     {
         $client = Mockery::mock(Client::class);
 
