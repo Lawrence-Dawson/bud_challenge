@@ -17,6 +17,7 @@ class HackServiceTest extends TestCase
         $this->deathStar = Mockery::mock(DeathStarGateway::class);
         $this->service = new HackService($this->deathStar, $this->translator);
     }
+
     public function testItTranslatesAnyDroidSpeakInResponseToGalacticBasic()
     {
         $cellDroid = '01000011 01100101 01101100 01101100
@@ -63,5 +64,39 @@ class HackServiceTest extends TestCase
             'cell' => $cellBasic,
             'block' => $blockBasic
         ], $result);
+    }
+
+    public function testItCanHandleABadResponse()
+    {
+        $messageDroid = '01000001 01100011 01100011 01100101 
+        01110011 01110011 00100000 01000100 01000101 
+        01001110 01001001 01000101 01000100 00100000 
+        01111001 01101111 01110101 00100000 01110000 
+        01110101 01101110 01111001 00100000 01110010 
+        01100101 01100010 01100101 01101100 00100000 
+        01110011 01100011 01110101 01101101 00100001';
+        $messageBasic = 'Access DENIED you puny rebel scum!';
+
+        $json = json_encode([
+            'message' => $messageDroid
+        ]);
+
+        $response = new Response(401, $json);
+
+        $this->deathStar
+            ->expects()
+            ->releaseThePrincess()
+            ->once()
+            ->andReturns($response);
+        
+        $this->translator
+            ->expects()
+            ->droidToBasic($messageDroid)
+            ->once()
+            ->andReturns($messageBasic);
+
+        $this->expectExceptionMessage('Access DENIED you puny rebel scum!');
+
+        $this->service->releaseThePrincess();
     }
 }
