@@ -4,18 +4,18 @@ namespace App\Tests\Unit\Services;
 
 use Mockery;
 use App\Http\Response;
-use App\Services\HackService;
+use App\Services\HackingService;
 use PHPUnit\Framework\TestCase;
 use App\Services\TranslatorService;
 use App\Http\Gateways\DeathStarGateway;
 
-class HackServiceTest extends TestCase
+class HackingServiceTest extends TestCase
 {
     public function setUp(): void
     {
         $this->translator = Mockery::mock(TranslatorService::class);
         $this->deathStar = Mockery::mock(DeathStarGateway::class);
-        $this->service = new HackService($this->deathStar, $this->translator);
+        $this->service = new HackingService($this->deathStar, $this->translator);
     }
 
     public function testItTranslatesAnyDroidSpeakInResponseToGalacticBasic()

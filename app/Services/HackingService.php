@@ -6,7 +6,7 @@ use App\Http\Response;
 use App\Services\TranslatorService;
 use App\Http\Gateways\DeathStarGateway;
 
-class HackService
+class HackingService
 {
     private $deathStar;
     private $translator;
