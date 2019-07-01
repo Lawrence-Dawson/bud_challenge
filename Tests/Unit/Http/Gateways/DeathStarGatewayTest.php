@@ -28,7 +28,7 @@ class DeathStarGatewayTest extends TestCase
 
         $responseBody = [
             'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
-            'expires_id' => 99999999999,
+            'expires_in' => 99999999999,
             'token_type' => 'Bearer',
             'scope' => 'TheForce'
         ];
@@ -65,7 +65,7 @@ class DeathStarGatewayTest extends TestCase
 
         $authResponseBody = [
             'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
-            'expires_id' => 99999999999,
+            'expires_in' => 99999999999,
             'token_type' => 'Bearer',
             'scope' => 'TheForce'
         ];
@@ -113,7 +113,7 @@ class DeathStarGatewayTest extends TestCase
 
         $authResponseBody = [
             'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
-            'expires_id' => 99999999999,
+            'expires_in' => 99999999999,
             'token_type' => 'Bearer',
             'scope' => 'TheForce'
         ];
@@ -152,5 +152,43 @@ class DeathStarGatewayTest extends TestCase
         $response = $gateway->releasePrincess();
 
         $this->assertEquals($destroyResponse->getBody(), $response->getBody());
+    }
+
+    public function testItCachesTokenAfterInitialRequest()
+    {
+        $client = Mockery::mock(Client::class);
+
+        $authResponseBody = [
+            'access_token' => 'e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d',
+            'expires_in' => 99999999999,
+            'token_type' => 'Bearer',
+            'scope' => 'TheForce'
+        ];
+
+        $authResponse = $this->createResponse(200, [], $authResponseBody);
+
+        $cert = 'certificate.pem';
+
+        $client->expects()
+            ->request('POST', 'https://death.star.api/token', [
+                'headers' => [],
+                'cert' => $cert,
+                'body' => json_encode([
+                    'Client secret' => $this->configs['death_star_secret'],
+                    'Client ID' => $this->configs['death_star_id'],
+                ])
+            ])
+            ->once()
+            ->andReturns($authResponse);
+        
+        new DeathStarGateway($client);
+
+        $client2 = Mockery::mock(Client::class);
+
+        $client2->shouldNotReceive('request')->once();
+
+        $gateway2 = new DeathStarGateway($client2);
+
+        $this->assertEquals($gateway2->getHeaders(), ['Authorization' => 'Bearer ' . $authResponseBody['access_token']]);
     }
 }

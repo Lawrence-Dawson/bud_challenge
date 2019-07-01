@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b89f1f505974d67c937422fdfdc1a160",
+    "content-hash": "e7f31800347fdfc2aa73f2fee254b7d7",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -1904,6 +1904,47 @@
                 "validate"
             ],
             "time": "2018-12-25T11:19:39+00:00"
+        },
+        {
+            "name": "wruczek/php-file-cache",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Wruczek/PHP-File-Cache.git",
+                "reference": "96fd502522beb7438f0874c7d39e096f5c96764f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Wruczek/PHP-File-Cache/zipball/96fd502522beb7438f0874c7d39e096f5c96764f",
+                "reference": "96fd502522beb7438f0874c7d39e096f5c96764f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "php": ">=5.6.0",
+                "phpunit/phpunit": "5.6.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wruczek\\PhpFileCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wruczek",
+                    "email": "wruczekk@gmail.com",
+                    "homepage": "https://wruczek.tech"
+                }
+            ],
+            "description": "Light, simple and standalone PHP in-file caching class",
+            "time": "2018-01-20T17:06:00+00:00"
         }
     ],
     "packages-dev": [

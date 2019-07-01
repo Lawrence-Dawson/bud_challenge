@@ -3,6 +3,7 @@
 namespace App\Http\Gateways;
 
 use GuzzleHttp\Client;
+use Wruczek\PhpFileCache\PhpFileCache;
 
 class DeathStarGateway extends BaseGateway
 {
@@ -19,15 +20,24 @@ class DeathStarGateway extends BaseGateway
 
     private function getAccessToken()
     {
+        $cache = new PhpFileCache(__DIR__ . "cache");
+
+        if ($token = $cache->retrieve("death_star_token")) {
+            return $token['access_token'];
+        }
+        
         $body = [
             'Client secret' => $this->getConfigs()['death_star_secret'],
             'Client ID' => $this->getConfigs()['death_star_id'],
         ];
+
         $configs = ['cert' => 'certificate.pem'];
-
+        
         $response = $this->request('POST', '/token', $body, [], $configs);
-
+        
         $reponseBody = json_decode($response->getBody(), true);
+
+        $cache->store("death_star_token", $reponseBody, $reponseBody['expires_in'] - 3600);
 
         return $reponseBody['access_token'];
     }

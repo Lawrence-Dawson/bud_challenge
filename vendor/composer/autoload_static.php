@@ -22,6 +22,7 @@ class ComposerStaticInit59b99eb76bf5e7a302ee9007e61d58d8
         ),
         'W' => 
         array (
+            'Wruczek\\PhpFileCache\\' => 21,
             'Webmozart\\Assert\\' => 17,
         ),
         'S' => 
@@ -57,6 +58,10 @@ class ComposerStaticInit59b99eb76bf5e7a302ee9007e61d58d8
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Wruczek\\PhpFileCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wruczek/php-file-cache/src',
         ),
         'Webmozart\\Assert\\' => 
         array (

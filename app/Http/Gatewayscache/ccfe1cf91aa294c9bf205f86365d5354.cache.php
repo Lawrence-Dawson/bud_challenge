@@ -1,0 +1,2 @@
+<?php die("Access denied") ?>
+a:3:{s:3:"foo";a:4:{s:4:"time";i:1561983628;s:6:"expire";i:1000;s:4:"data";a:1:{i:0;s:3:"bar";}s:9:"permanent";b:0;}s:16:"death_star_token";a:4:{s:4:"time";i:1561983835;s:6:"expire";i:99999996399;s:4:"data";a:4:{s:12:"access_token";s:43:"e31a726c4b90462ccb7619e1b9d8u8d87d87d878d8d";s:10:"expires_in";i:99999999999;s:10:"token_type";s:6:"Bearer";s:5:"scope";s:8:"TheForce";}s:9:"permanent";b:0;}s:8:"hash-sum";s:32:"add5bc430bb32a403c4fd3498b750543";}
